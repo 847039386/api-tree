@@ -127,7 +127,9 @@ export default {
   },
   created(){
       var currentProject = this.$q.localStorage.getItem("currentProject")
-      this.$store.commit("Project/setDefault",currentProject);
+      if(currentProject){
+        this.$store.commit("Project/setDefault",currentProject);
+      }
   },
   methods :{
     addApiCancle :function(){

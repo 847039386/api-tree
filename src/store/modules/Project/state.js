@@ -1,6 +1,10 @@
 export default {
     
-    defaultProject :{ },
+    defaultProject :{ 
+        _id :'',
+        cname:'',
+        domain:''
+    },
     save : {
         loading: false,
     },
