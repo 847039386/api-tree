@@ -83,7 +83,7 @@
 <script>
   import Aux from '../common/auxx';
   import printTemplate from '../components/printTemplate';
-  import { parseUri } from '../common/tool'
+  import XEUtils from 'xe-utils';
   import {
     mapState
   } from 'vuex'
@@ -208,10 +208,10 @@
       checkDefaultMode : function(url,defaultProject){
         var success = true;
         var msg = '';
-        var userUrlObj = parseUri(url)
-        var projectObj = parseUri(defaultProject.domain)
-        var u_authority = userUrlObj.protocol + "://" + userUrlObj.authority;
-        var d_authority = projectObj.protocol + "://" + projectObj.authority;
+        var userUrlObj = XEUtils.parseUrl(url)
+        var projectObj = XEUtils.parseUrl(defaultProject.domain)
+        var u_authority = userUrlObj.origin;
+        var d_authority = projectObj.origin;
         if(u_authority != d_authority){
             msg = '你当前添加的api并不是当前项目的域名。'
             success = false;
@@ -219,10 +219,10 @@
         if(success){
           return {
             success,
-            url :defaultProject.domain + userUrlObj.path ,
-            api :userUrlObj.path,
+            url :defaultProject.domain + userUrlObj.pathname ,
+            api :userUrlObj.pathname,
             project :defaultProject,
-            queryKey : userUrlObj.queryKey
+            queryKey : userUrlObj.searchQuery
           }
         }else{
           return { success ,msg }
@@ -256,6 +256,7 @@
                 break;
                 default :
                     result = this.checkDefaultMode(mainUrl ,defaultProject);
+                    console.log(result)
                   break;
               }
           }else{
